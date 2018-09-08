@@ -1,0 +1,18 @@
+{
+  "name": "y",
+  "version": "y",
+  "description": "This is me repeating the exercises from Refactoring, 2nd edition by Martin Fowler",
+  "main": "index.js",
+  "author": "Pedro Evangelista",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedromanoel/refactoring-2nd-learning.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^23.5.0"
+  }
+}
