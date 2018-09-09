@@ -9,16 +9,15 @@ function statement (invoice, plays) {
       minimumFractionDigits: 2
     }).format
   for (let perf of invoice.performances) {
-    const play = playFor(perf)
-    let thisAmount = amountFor(perf, play)
+    let thisAmount = amountFor(perf, playFor(perf))
 
     // add volume credits
     volumeCredits += Math.max(perf.audience - 30, 0)
     // add extra credit for every ten comedy attendees
-    if (play.type === 'comedy') volumeCredits += Math.floor(perf.audience / 5)
+    if (playFor(perf).type === 'comedy') volumeCredits += Math.floor(perf.audience / 5)
 
     // print line for this order
-    result += `  ${play.name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`
+    result += `  ${playFor(perf).name}: ${format(thisAmount / 100)} (${perf.audience} seats)\n`
     totalAmount += thisAmount
   }
   result += `Amount owed is ${format(totalAmount / 100)}\n`
