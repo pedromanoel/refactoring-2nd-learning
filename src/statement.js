@@ -3,11 +3,13 @@ function statement (invoice, plays) {
   let volumeCredits = 0
   let result = `Statement for ${invoice.customer}\n`
   const format = new Intl.NumberFormat('en-US',
-    { style: 'currency',
+    {
+      style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 2 }).format
+      minimumFractionDigits: 2
+    }).format
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID]
+    const play = playFor(perf)
     let thisAmount = amountFor(perf, play)
 
     // add volume credits
@@ -45,6 +47,10 @@ function statement (invoice, plays) {
     }
 
     return result
+  }
+
+  function playFor (aPerformance) {
+    return plays[aPerformance.playID]
   }
 }
 
