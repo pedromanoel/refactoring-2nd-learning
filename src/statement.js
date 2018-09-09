@@ -7,33 +7,16 @@ function statement (invoice, plays) {
   return renderPlainText(statementData, plays)
 
   function enrichPerformance (aPerformance) {
-    return Object.assign({
-      play: playFor(aPerformance)
-    }, aPerformance)
+    const result = Object.assign({}, aPerformance)
+
+    result.play = playFor(result)
+    result.amount = amountFor(result)
+
+    return result
   }
 
   function playFor (aPerformance) {
     return plays[aPerformance.playID]
-  }
-}
-
-function renderPlainText (data, plays) {
-  let result = `Statement for ${data.customer}\n`
-
-  for (let perf of data.performances) {
-    result += `  ${perf.play.name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`
-  }
-
-  result += `Amount owed is ${usd(totalAmount())}\n`
-  result += `You earned ${totalVolumeCredits()} credits\n`
-  return result
-
-  function usd (aNumber) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(aNumber / 100)
   }
 
   function amountFor (aPerformance) {
@@ -59,11 +42,31 @@ function renderPlainText (data, plays) {
 
     return result
   }
+}
+
+function renderPlainText (data, plays) {
+  let result = `Statement for ${data.customer}\n`
+
+  for (let perf of data.performances) {
+    result += `  ${perf.play.name}: ${usd(perf.amount)} (${perf.audience} seats)\n`
+  }
+
+  result += `Amount owed is ${usd(totalAmount())}\n`
+  result += `You earned ${totalVolumeCredits()} credits\n`
+  return result
+
+  function usd (aNumber) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(aNumber / 100)
+  }
 
   function totalAmount () {
     let result = 0
     for (let perf of data.performances) {
-      result += amountFor(perf)
+      result += perf.amount
     }
 
     return result
