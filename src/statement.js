@@ -1,26 +1,32 @@
 function statement (invoice, plays) {
   const statementData = {
     customer: invoice.customer,
-    performances: invoice.performances
+    performances: invoice.performances.map(enrichPerformance)
   }
 
   return renderPlainText(statementData, plays)
+
+  function enrichPerformance (aPerformance) {
+    return Object.assign({
+      play: playFor(aPerformance)
+    }, aPerformance)
+  }
+
+  function playFor (aPerformance) {
+    return plays[aPerformance.playID]
+  }
 }
 
 function renderPlainText (data, plays) {
   let result = `Statement for ${data.customer}\n`
 
   for (let perf of data.performances) {
-    result += `  ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`
+    result += `  ${perf.play.name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`
   }
 
   result += `Amount owed is ${usd(totalAmount())}\n`
   result += `You earned ${totalVolumeCredits()} credits\n`
   return result
-
-  function playFor (aPerformance) {
-    return plays[aPerformance.playID]
-  }
 
   function usd (aNumber) {
     return new Intl.NumberFormat('en-US', {
@@ -33,7 +39,7 @@ function renderPlainText (data, plays) {
   function amountFor (aPerformance) {
     let result = 0
 
-    switch (playFor(aPerformance).type) {
+    switch (aPerformance.play.type) {
       case 'tragedy':
         result = 40000
         if (aPerformance.audience > 30) {
@@ -48,7 +54,7 @@ function renderPlainText (data, plays) {
         result += 300 * aPerformance.audience
         break
       default:
-        throw new Error(`unknown type: ${playFor(aPerformance).type}`)
+        throw new Error(`unknown type: ${aPerformance.play.type}`)
     }
 
     return result
@@ -75,7 +81,7 @@ function renderPlainText (data, plays) {
   function volumeCreditsFor (aPerformance) {
     let result = 0
     result += Math.max(aPerformance.audience - 30, 0)
-    if (playFor(aPerformance).type === 'comedy') {
+    if (aPerformance.play.type === 'comedy') {
       result += Math.floor(aPerformance.audience / 5)
     }
 
