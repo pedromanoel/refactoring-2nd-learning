@@ -11,6 +11,17 @@ class PerformanceCalculator {
   get volumeCredits () {
     return Math.max(this.performance.audience - 30, 0)
   }
+
+  static create (aPerformance, aPlay) {
+    switch (aPlay.type) {
+      case 'tragedy':
+        return new TragedyCalculator(aPerformance, aPlay)
+      case 'comedy':
+        return new ComedyCalculator(aPerformance, aPlay)
+      default:
+        throw new Error(`unknown type: ${aPlay.type}`)
+    }
+  }
 }
 
 class TragedyCalculator extends PerformanceCalculator {
@@ -40,17 +51,6 @@ class ComedyCalculator extends PerformanceCalculator {
   }
 }
 
-function createPerformanceCalculator (aPerformance, aPlay) {
-  switch (aPlay.type) {
-    case 'tragedy':
-      return new TragedyCalculator(aPerformance, aPlay)
-    case 'comedy':
-      return new ComedyCalculator(aPerformance, aPlay)
-    default:
-      throw new Error(`unknown type: ${aPlay.type}`)
-  }
-}
-
 function createStatementData (invoice, plays) {
   const statementData = {}
   statementData.customer = invoice.customer
@@ -61,7 +61,7 @@ function createStatementData (invoice, plays) {
   return statementData
 
   function enrichPerformance (aPerformance) {
-    const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance))
+    const calculator = PerformanceCalculator.create(aPerformance, playFor(aPerformance))
     const result = Object.assign({}, aPerformance)
 
     result.play = calculator.play
