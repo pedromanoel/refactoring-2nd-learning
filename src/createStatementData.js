@@ -5,46 +5,39 @@ class PerformanceCalculator {
   }
 
   get amount () {
-    let result = 0
+    throw new Error('Subclass responsibility')
+  }
 
-    switch (this.play.type) {
-      case 'tragedy':
-        result = 40000
-        if (this.performance.audience > 30) {
-          result += 1000 * (this.performance.audience - 30)
-        }
-        break
-      case 'comedy':
-        result = 30000
-        if (this.performance.audience > 20) {
-          result += 10000 + 500 * (this.performance.audience - 20)
-        }
-        result += 300 * this.performance.audience
-        break
-      default:
-        throw new Error(`unknown type: ${this.play.type}`)
+  get volumeCredits () {
+    return Math.max(this.performance.audience - 30, 0)
+  }
+}
+
+class TragedyCalculator extends PerformanceCalculator {
+  get amount () {
+    let result = 40000
+    if (this.performance.audience > 30) {
+      result += 1000 * (this.performance.audience - 30)
     }
+
+    return result
+  }
+}
+
+class ComedyCalculator extends PerformanceCalculator {
+  get amount () {
+    let result = 30000
+    if (this.performance.audience > 20) {
+      result += 10000 + 500 * (this.performance.audience - 20)
+    }
+    result += 300 * this.performance.audience
 
     return result
   }
 
   get volumeCredits () {
-    let result = 0
-    result += Math.max(this.performance.audience - 30, 0)
-    if (this.play.type === 'comedy') {
-      result += Math.floor(this.performance.audience / 5)
-    }
-
-    return result
+    return super.volumeCredits + Math.floor(this.performance.audience / 5)
   }
-}
-
-class TragedyCalculator extends PerformanceCalculator {
-
-}
-
-class ComedyCalculator extends PerformanceCalculator {
-
 }
 
 function createPerformanceCalculator (aPerformance, aPlay) {
