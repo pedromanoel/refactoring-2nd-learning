@@ -2,6 +2,13 @@
 
 const createStatementData = require('../src/createStatementData')
 
+test('raise error when play is of unknown type', () => {
+  const invoice = givenInvoiceWithPerformances({ playID: 'action', audience: 0 })
+  const plays = givenPlays('action')
+
+  expect(() => createStatementData(invoice, plays)).toThrowError(/action/)
+})
+
 test('tragedy costs 400 USD', () => {
   const invoice = givenInvoiceWithPerformances({ playID: 'tragedy', audience: 0 })
   const plays = givenPlays('tragedy')
