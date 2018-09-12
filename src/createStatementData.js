@@ -66,4 +66,10 @@ function createStatementData (invoice, plays) {
   }
 }
 
+class PerformanceCalculator {
+  constructor (aPerformance) {
+    this.aPerformance = aPerformance
+  }
+}
+
 module.exports = createStatementData
