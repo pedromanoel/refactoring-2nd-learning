@@ -21,10 +21,10 @@ test('htmlStatement returns bill', () => {
   expect(result).toBe([
     '<h1>Statement for BigCo</h1>',
     '<table>',
-    `  ${tr('th', 'play'          , 'seats', 'cost'   )}`,
-    `  ${tr('td', 'Hamlet'        , '55'   , '$650.00')}`,
-    `  ${tr('td', 'As You Like It', '35'   , '$580.00')}`,
-    `  ${tr('td', 'Othello'       , '40'   , '$500.00')}`,
+    `  ${tr('th', 'play', 'seats', 'cost')}`,
+    `  ${tr('td', 'Hamlet', '55', '$650.00')}`,
+    `  ${tr('td', 'As You Like It', '35', '$580.00')}`,
+    `  ${tr('td', 'Othello', '40', '$500.00')}`,
     '</table>',
     '<p>Amount owed is <em>$1,730.00</em></p>',
     '<p>You earned <em>47</em> credits</p>',
@@ -33,80 +33,4 @@ test('htmlStatement returns bill', () => {
 
 function tr (cellTag, ...cols) {
   return `<tr>${cols.map(col => `<${cellTag}>${col}</${cellTag}>`).join('')}</tr>`
-}
-
-test('tragedy costs 400 USD', () => {
-  const invoice = givenInvoiceWithPerformances({ playID: 'tragedy', audience: 0 })
-  const plays = givenPlays('tragedy')
-  expect(statement(invoice, plays)).toMatch('Tragedy: $400.00')
-})
-
-test('tragedy costs an extra 10 USD for each seat past 30', () => {
-  const invoice = givenInvoiceWithPerformances({ playID: 'tragedy', audience: 35 })
-  const plays = givenPlays('tragedy')
-  expect(statement(invoice, plays)).toMatch('Tragedy: $450.00')
-})
-
-test('comedy costs 300 USD', () => {
-  const invoice = givenInvoiceWithPerformances({ playID: 'comedy', audience: 0 })
-  const plays = givenPlays('comedy')
-  expect(statement(invoice, plays)).toMatch('Comedy: $300.00')
-})
-
-test('comedy costs 3 USD for each seat', () => {
-  const invoice = givenInvoiceWithPerformances({ playID: 'comedy', audience: 1 })
-  const plays = givenPlays('comedy')
-  expect(statement(invoice, plays)).toMatch('Comedy: $303.00')
-})
-
-test('comedy costs an extra 100 USD plus 5 USD for each seat past 20', () => {
-  const invoice = givenInvoiceWithPerformances({ playID: 'comedy', audience: 22 })
-  const plays = givenPlays('comedy')
-
-  const baseCost = 300
-  const baseCostPerSeat = 22 * 3
-  const extraCost = 100
-  const extraCostPerSeat = 2 * 5
-  const totalCost = baseCost + baseCostPerSeat + extraCost + extraCostPerSeat
-
-  expect(statement(invoice, plays)).toMatch(`Comedy: $${totalCost}.00`)
-})
-
-test('tragedy earns one volume credit for each seat past 30', () => {
-  const invoice = givenInvoiceWithPerformances(
-    { playID: 'tragedy', audience: 40 }
-  )
-  const plays = givenPlays('tragedy')
-
-  expect(statement(invoice, plays)).toMatch('10 credits')
-})
-
-test('comedy earns one volume credit for every 5 seats', () => {
-  const invoice = givenInvoiceWithPerformances(
-    { playID: 'comedy', audience: 16 }
-  )
-  const plays = givenPlays('comedy')
-
-  expect(statement(invoice, plays)).toMatch('3 credits')
-})
-
-function givenInvoiceWithPerformances (...performances) {
-  return {
-    customer: 'BigCo',
-    performances: performances
-  }
-}
-
-function givenPlays (...playNames) {
-  const toPlay = playName => ({
-    type: playName.toLowerCase(),
-    name: playName[0].toUpperCase() + playName.slice(1).toLowerCase()
-  })
-
-  return playNames
-    .map(toPlay)
-    .reduce((plays, play) => {
-      plays[play.type] = play
-      return plays
-    }, {})
 }
