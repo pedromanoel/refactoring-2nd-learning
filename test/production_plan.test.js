@@ -1,13 +1,18 @@
-/* global describe, test, expect */
+/* global describe, beforeEach, test, expect */
 const { Province, sampleProvinceData } = require('../src/production_plan')
 
 describe('Province', function () {
+  let asia
+
+  beforeEach(function () {
+    asia = new Province(sampleProvinceData())
+  })
+
   test('#shortfall', function () {
-    const asia = new Province(sampleProvinceData())
     expect(asia).toHaveProperty('shortfall', 5)
   })
+
   test('#profit', function () {
-    const asia = new Province(sampleProvinceData())
     expect(asia).toHaveProperty('profit', 230)
   })
 })
