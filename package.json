@@ -10,7 +10,7 @@
     "url": "https://github.com/pedromanoel/refactoring-2nd-learning.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "standard && jest",
     "standard": "standard",
     "fix": "standard --fix"
   },
