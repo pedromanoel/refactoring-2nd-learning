@@ -6,4 +6,8 @@ describe('Province', function () {
     const asia = new Province(sampleProvinceData())
     expect(asia).toHaveProperty('shortfall', 5)
   })
+  test('#profit', function () {
+    const asia = new Province(sampleProvinceData())
+    expect(asia).toHaveProperty('profit', 230)
+  })
 })
