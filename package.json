@@ -10,11 +10,11 @@
     "url": "https://github.com/pedromanoel/refactoring-2nd-learning.git"
   },
   "scripts": {
-    "test": "standard && jest --coverage",
+    "test": "standard && jest",
     "watch": "jest --watch",
     "standard": "standard",
     "fix": "standard --fix",
-    "coverage": "opn coverage/lcov-report/index.html"
+    "coverage": "yarn test -- --coverage && opn coverage/lcov-report/index.html"
   },
   "devDependencies": {
     "jest": "^23.5.0",
