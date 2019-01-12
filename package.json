@@ -14,7 +14,10 @@
     "watch": "jest --watch",
     "standard": "standard",
     "fix": "standard --fix",
-    "coverage": "yarn test -- --coverage && opn coverage/lcov-report/index.html"
+    "coverage": "yarn test -- --coverage && opn coverage/lcov-report/index.html",
+    "commit": "git commit -a",
+    "revert": "git checkout -- .",
+    "tdd": "yarn test && yarn commit || yarn revert"
   },
   "devDependencies": {
     "jest": "^23.5.0",
