@@ -15,4 +15,10 @@ describe('Province', function () {
   test('#profit', function () {
     expect(asia).toHaveProperty('profit', 230)
   })
+
+  test('change production', function () {
+    asia.producers[0].production = 20
+    expect(asia.shortfall).toBe(-6)
+    expect(asia.profit).toBe(292)
+  })
 })
