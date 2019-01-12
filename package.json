@@ -11,6 +11,7 @@
   },
   "scripts": {
     "test": "standard && jest",
+    "watch": "jest --watch",
     "standard": "standard",
     "fix": "standard --fix"
   },
