@@ -1,5 +1,7 @@
 /* global describe, beforeEach, afterEach, test, expect */
 
+const { printOwing } = require('../src/extract-method')
+
 describe('Extract method refactoring', () => {
   const realConsoleLog = console.log
   let capturedLog
@@ -13,9 +15,11 @@ describe('Extract method refactoring', () => {
     console.log = realConsoleLog
   })
 
-  test('', () => {
-    console.log('Hello')
+  test('empty invoice', () => {
+    const invoice = { orders: [] }
 
-    expect(capturedLog).toContain('Hello')
+    printOwing(invoice)
+
+    expect(capturedLog).toContain('amount: 0')
   })
 })

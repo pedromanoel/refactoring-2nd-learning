@@ -22,4 +22,6 @@ function printOwing (invoice) {
   console.log(`due: ${invoice.dueDate.toLocaleDateString()}`)
 }
 
-module.exports = printOwing
+module.exports = {
+  printOwing
+}
