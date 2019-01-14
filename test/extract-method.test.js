@@ -37,4 +37,12 @@ describe('Extract method refactoring', () => {
       '***********************'
     ])
   })
+
+  test('due date', () => {
+    const invoice = { orders: [] }
+
+    printOwing(invoice)
+
+    expect(capturedLog[5]).toEqual('due: ' + new Date(2019, 0, 31).toLocaleDateString())
+  })
 })
