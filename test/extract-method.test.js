@@ -22,4 +22,16 @@ describe('Extract method refactoring', () => {
 
     expect(capturedLog).toContain('amount: 0')
   })
+
+  test('print header', () => {
+    const invoice = { orders: [] }
+
+    printOwing(invoice)
+
+    expect(capturedLog.slice(0, 3)).toEqual([
+      '***********************',
+      '**** Customer Owes ****',
+      '***********************'
+    ])
+  })
 })
