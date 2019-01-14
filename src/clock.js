@@ -1,5 +1,5 @@
 module.exports = {
   get today () {
-    return Date.now()
+    return new Date()
   }
 }

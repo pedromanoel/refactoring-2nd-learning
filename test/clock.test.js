@@ -6,6 +6,6 @@ describe('Clock', () => {
   test('#today', () => {
     const now = Date.now()
 
-    expect(Clock.today).toBeGreaterThanOrEqual(now)
+    expect(Clock.today.getTime()).toBeGreaterThanOrEqual(now)
   })
 })
