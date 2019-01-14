@@ -1,6 +1,9 @@
 /* global describe, beforeEach, afterEach, test, expect */
+const Clock = {
+  today: new Date(2019, 0, 1)
+}
 
-const { printOwing } = require('../src/extract-method')
+const { printOwing } = require('../src/extract-method')(Clock)
 
 describe('Extract method refactoring', () => {
   const realConsoleLog = console.log
