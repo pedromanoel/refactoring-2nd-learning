@@ -3,9 +3,7 @@ module.exports = function withClock (Clock) {
     printOwing (invoice) {
       let outstanding = 0
 
-      console.log('***********************')
-      console.log('**** Customer Owes ****')
-      console.log('***********************')
+      printBanner()
 
       // calculate outstanding
       for (const o of invoice.orders) {
@@ -20,6 +18,12 @@ module.exports = function withClock (Clock) {
       console.log(`name: ${invoice.customer}`)
       console.log(`amount: ${outstanding}`)
       console.log(`due: ${invoice.dueDate.toLocaleDateString()}`)
+
+      function printBanner () {
+        console.log('***********************')
+        console.log('**** Customer Owes ****')
+        console.log('***********************')
+      }
     }
   }
 }
