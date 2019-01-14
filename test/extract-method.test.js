@@ -46,6 +46,16 @@ describe('Extract method refactoring', () => {
     expect(capturedLog[3]).toEqual('name: A Customer')
   })
 
+  test('invoice amount', () => {
+    const invoice = {
+      orders: [ { amount: 10 }, { amount: 15 } ]
+    }
+
+    printOwing(invoice)
+
+    expect(capturedLog[4]).toEqual('amount: 25')
+  })
+
   test('due date', () => {
     const invoice = { orders: [] }
 
