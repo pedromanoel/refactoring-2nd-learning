@@ -15,7 +15,7 @@
     "standard": "standard",
     "fix": "standard --fix",
     "coverage": "yarn test -- --coverage && opn coverage/lcov-report/index.html",
-    "commit": "git commit -a",
+    "commit": "git add . && git commit",
     "revert": "git checkout -- .",
     "tdd": "yarn test && yarn commit || yarn revert"
   },
