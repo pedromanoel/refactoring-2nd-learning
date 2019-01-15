@@ -16,7 +16,7 @@
     "fix": "standard --fix",
     "coverage": "yarn test -- --coverage && opn coverage/lcov-report/index.html",
     "commit": "git add . && git commit",
-    "revert": "git checkout -- . && git clean -fd",
+    "revert": "git reset HEAD . -- && git checkout -- . && git clean -fd",
     "tdd": "yarn test && yarn commit || yarn revert"
   },
   "devDependencies": {
