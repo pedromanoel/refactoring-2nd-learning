@@ -10,9 +10,7 @@ module.exports = function withClock (Clock) {
         outstanding += o.amount
       }
 
-      // record due date
-      const today = Clock.today
-      invoice.dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30)
+      recordDueDate(invoice)
 
       printDetails(invoice, outstanding)
 
@@ -28,5 +26,10 @@ module.exports = function withClock (Clock) {
     console.log(`name: ${invoice.customer}`)
     console.log(`amount: ${outstanding}`)
     console.log(`due: ${invoice.dueDate.toLocaleDateString()}`)
+  }
+
+  function recordDueDate (invoice) {
+    const today = Clock.today
+    invoice.dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30)
   }
 }
