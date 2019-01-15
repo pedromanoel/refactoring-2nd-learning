@@ -2,13 +2,7 @@ module.exports = function withClock (Clock) {
   return {
     printOwing (invoice) {
       printBanner()
-
-      // calculate outstanding
-      let outstanding = 0
-      for (const o of invoice.orders) {
-        outstanding += o.amount
-      }
-
+      const outstanding = calculateOutstanding(invoice)
       recordDueDate(invoice)
       printDetails(invoice, outstanding)
 
@@ -18,6 +12,15 @@ module.exports = function withClock (Clock) {
         console.log('***********************')
       }
     }
+  }
+
+  function calculateOutstanding (invoice) {
+    let result = 0
+    for (const o of invoice.orders) {
+      result += o.amount
+    }
+
+    return result
   }
 
   function printDetails (invoice, outstanding) {
